@@ -13,8 +13,8 @@ export default function Page() {
   return (
     <main className="min-h-svh bg-slate-100 text-slate-900 transition-colors dark:bg-[#080a0f] dark:text-slate-100">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-12 md:py-16">
-        <header className="rounded-3xl border border-slate-300 bg-gradient-to-br from-emerald-100 to-sky-100 p-6 transition-colors md:p-8 dark:border-emerald-500/30 dark:from-emerald-500/10 dark:to-sky-500/5">
-          <div className="mb-5 flex items-center justify-end">
+        <header className="relative rounded-3xl border border-slate-300 bg-gradient-to-br from-emerald-100 to-sky-100 p-6 pr-24 transition-colors md:p-8 dark:border-emerald-500/30 dark:from-emerald-500/10 dark:to-sky-500/5">
+          <div className="absolute top-6 right-6 md:top-8 md:right-8">
             <ThemeToggle />
           </div>
           <div className="space-y-3">
