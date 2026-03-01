@@ -1,65 +1,77 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import { IconArrowUpRight, IconTerminal2 } from "@tabler/icons-react";
 
-export default function Home() {
+import { ThemeToggle } from "@/components/theme-toggle";
+import { projects } from "@/lib/projects";
+
+export const metadata: Metadata = {
+  title: "mike-codes",
+  description: "Terminal board launcher for Mike's Vercel production apps.",
+};
+
+export default function Page() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main className="min-h-svh bg-slate-100 text-slate-900 transition-colors dark:bg-[#080a0f] dark:text-slate-100">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-12 md:py-16">
+        <header className="rounded-3xl border border-slate-300 bg-gradient-to-br from-emerald-100 to-sky-100 p-6 transition-colors md:p-8 dark:border-emerald-500/30 dark:from-emerald-500/10 dark:to-sky-500/5">
+          <div className="mb-5 flex flex-wrap items-center justify-between gap-2">
+            <div className="rounded-md border border-slate-300 bg-white/70 px-3 py-1 text-xs font-medium text-slate-700 dark:border-emerald-400/30 dark:bg-emerald-950/20 dark:text-emerald-300">
+              VARIANT 2 / TERMINAL BOARD
+            </div>
+            <ThemeToggle />
+          </div>
+          <div className="space-y-3">
+            <p className="font-mono text-xs tracking-[0.18em] text-emerald-700 uppercase dark:text-emerald-300">
+              <span className="mr-2 inline-block h-2 w-2 rounded-full bg-emerald-500 dark:bg-emerald-400" />
+              OPERATIONAL VIEW
+            </p>
+            <h1 className="font-mono text-3xl leading-tight md:text-5xl">
+              Terminal Board
+            </h1>
+            <p className="max-w-3xl font-mono text-sm text-slate-700 md:text-base dark:text-slate-300">
+              Fast launch interface with command-line flavor and high signal-to-noise.
+            </p>
+          </div>
+        </header>
+
+        <section className="overflow-hidden rounded-3xl border border-slate-300 bg-white/80 shadow-2xl shadow-slate-300/30 backdrop-blur transition-colors dark:border-slate-800 dark:bg-slate-950/70 dark:shadow-emerald-950/20">
+          <div className="grid grid-cols-[1fr_auto] border-b border-slate-300 bg-slate-100/90 px-4 py-3 font-mono text-xs tracking-[0.12em] text-slate-600 uppercase md:grid-cols-[220px_220px] md:px-6 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-400">
+            <span>Project</span>
+            <span className="text-right">Action</span>
+          </div>
+
+          <ul>
+            {projects.map((project) => (
+              <li
+                key={project.name}
+                className="grid grid-cols-[1fr_auto] items-center gap-3 border-b border-slate-200 px-4 py-4 transition hover:bg-slate-100 md:grid-cols-[220px_220px] md:px-6 dark:border-slate-900 dark:hover:bg-slate-900/70"
+              >
+                <div>
+                  <p className="font-mono text-base text-emerald-700 dark:text-emerald-300">{project.name}</p>
+                  <p className="mt-1 font-mono text-[11px] text-slate-500 dark:text-slate-400">
+                    {project.vercelProject}
+                  </p>
+                </div>
+
+                <a
+                  className="inline-flex items-center justify-center gap-1 rounded-md border border-emerald-600/40 bg-emerald-600/10 px-3 py-1.5 font-mono text-xs text-emerald-800 transition hover:border-emerald-600 hover:bg-emerald-600 hover:text-white dark:border-emerald-500/50 dark:bg-emerald-500/10 dark:text-emerald-200 dark:hover:border-emerald-300 dark:hover:bg-emerald-300 dark:hover:text-emerald-950"
+                  href={project.productionUrl}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  OPEN
+                  <IconArrowUpRight className="size-3.5" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <footer className="flex items-center gap-2 font-mono text-xs tracking-[0.12em] text-slate-500 uppercase dark:text-slate-400">
+          <IconTerminal2 className="size-4 text-emerald-600 dark:text-emerald-400" />
+          mike-codes
+        </footer>
+      </div>
+    </main>
   );
 }
