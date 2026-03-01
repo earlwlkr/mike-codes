@@ -14,10 +14,7 @@ export default function Page() {
     <main className="min-h-svh bg-slate-100 text-slate-900 transition-colors dark:bg-[#080a0f] dark:text-slate-100">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-12 md:py-16">
         <header className="rounded-3xl border border-slate-300 bg-gradient-to-br from-emerald-100 to-sky-100 p-6 transition-colors md:p-8 dark:border-emerald-500/30 dark:from-emerald-500/10 dark:to-sky-500/5">
-          <div className="mb-5 flex flex-wrap items-center justify-between gap-2">
-            <div className="rounded-md border border-slate-300 bg-white/70 px-3 py-1 text-xs font-medium text-slate-700 dark:border-emerald-400/30 dark:bg-emerald-950/20 dark:text-emerald-300">
-              VARIANT 2 / TERMINAL BOARD
-            </div>
+          <div className="mb-5 flex items-center justify-end">
             <ThemeToggle />
           </div>
           <div className="space-y-3">
@@ -35,8 +32,9 @@ export default function Page() {
         </header>
 
         <section className="overflow-hidden rounded-3xl border border-slate-300 bg-white/80 shadow-2xl shadow-slate-300/30 backdrop-blur transition-colors dark:border-slate-800 dark:bg-slate-950/70 dark:shadow-emerald-950/20">
-          <div className="grid grid-cols-[1fr_auto] border-b border-slate-300 bg-slate-100/90 px-4 py-3 font-mono text-xs tracking-[0.12em] text-slate-600 uppercase md:grid-cols-[220px_220px] md:px-6 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-400">
+          <div className="grid grid-cols-[1fr_auto] border-b border-slate-300 bg-slate-100/90 px-4 py-3 font-mono text-xs tracking-[0.12em] text-slate-600 uppercase md:grid-cols-[220px_1fr_220px] md:px-6 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-400">
             <span>Project</span>
+            <span className="hidden md:block">Description</span>
             <span className="text-right">Action</span>
           </div>
 
@@ -44,14 +42,21 @@ export default function Page() {
             {projects.map((project) => (
               <li
                 key={project.name}
-                className="grid grid-cols-[1fr_auto] items-center gap-3 border-b border-slate-200 px-4 py-4 transition hover:bg-slate-100 md:grid-cols-[220px_220px] md:px-6 dark:border-slate-900 dark:hover:bg-slate-900/70"
+                className="grid grid-cols-[1fr_auto] items-center gap-3 border-b border-slate-200 px-4 py-4 transition hover:bg-slate-100 md:grid-cols-[220px_1fr_220px] md:px-6 dark:border-slate-900 dark:hover:bg-slate-900/70"
               >
                 <div>
                   <p className="font-mono text-base text-emerald-700 dark:text-emerald-300">{project.name}</p>
                   <p className="mt-1 font-mono text-[11px] text-slate-500 dark:text-slate-400">
                     {project.vercelProject}
                   </p>
+                  <p className="mt-2 text-xs text-slate-600 md:hidden dark:text-slate-300">
+                    {project.description}
+                  </p>
                 </div>
+
+                <p className="hidden text-sm text-slate-700 md:block dark:text-slate-300">
+                  {project.description}
+                </p>
 
                 <a
                   className="inline-flex items-center justify-center gap-1 rounded-md border border-emerald-600/40 bg-emerald-600/10 px-3 py-1.5 font-mono text-xs text-emerald-800 transition hover:border-emerald-600 hover:bg-emerald-600 hover:text-white dark:border-emerald-500/50 dark:bg-emerald-500/10 dark:text-emerald-200 dark:hover:border-emerald-300 dark:hover:bg-emerald-300 dark:hover:text-emerald-950"

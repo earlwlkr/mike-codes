@@ -1,5 +1,6 @@
 export type ProjectLink = {
   name: string;
+  description: string;
   vercelProject: string;
   productionUrl: string;
 };
@@ -7,31 +8,37 @@ export type ProjectLink = {
 export const projects: ProjectLink[] = [
   {
     name: "currency",
+    description: "Currency converter with multi-currency output plus a timezone conversion panel.",
     vercelProject: "currency",
     productionUrl: "https://currency-nine-peach.vercel.app",
   },
   {
     name: "smart-expense",
+    description: "Group expense tracker to split costs, balances, and analytics with shareable read-only links.",
     vercelProject: "smart-expense",
     productionUrl: "https://smart-expense-one.vercel.app",
   },
   {
     name: "persona",
+    description: "Persona-based AI chat where you can pin, create, and chat with generated famous-person personas.",
     vercelProject: "verbose-disco",
     productionUrl: "https://verbose-disco-kappa.vercel.app",
   },
   {
     name: "smart-expense-web",
+    description: "Personal expense logger that parses natural-language entries with Gemini and stores data locally.",
     vercelProject: "smart-expense-web",
     productionUrl: "https://smart-expense-web.vercel.app",
   },
   {
     name: "colordi",
+    description: "Mobile-first color contest app: submit photos to match target colors and compete on leaderboards.",
     vercelProject: "colordi",
     productionUrl: "https://colordi-blond.vercel.app",
   },
   {
     name: "numberdi",
+    description: "Multiplayer number-finding race game with join codes, lobby/countdown flow, and winner screen.",
     vercelProject: "numberdi",
     productionUrl: "https://numberdi.vercel.app",
   },
