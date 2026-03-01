@@ -41,14 +41,11 @@ export default function Page() {
           <ul>
             {projects.map((project) => (
               <li
-                key={project.name}
+                key={project.vercelProject}
                 className="grid grid-cols-[1fr_auto] items-center gap-3 border-b border-slate-200 px-4 py-4 transition hover:bg-slate-100 md:grid-cols-[220px_1fr_220px] md:px-6 dark:border-slate-900 dark:hover:bg-slate-900/70"
               >
                 <div>
-                  <p className="font-mono text-base text-emerald-700 dark:text-emerald-300">{project.name}</p>
-                  <p className="mt-1 font-mono text-[11px] text-slate-500 dark:text-slate-400">
-                    {project.vercelProject}
-                  </p>
+                  <p className="font-mono text-base text-emerald-700 dark:text-emerald-300">{project.vercelProject}</p>
                   <p className="mt-2 text-xs text-slate-600 md:hidden dark:text-slate-300">
                     {project.description}
                   </p>
