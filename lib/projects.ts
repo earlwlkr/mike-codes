@@ -17,8 +17,8 @@ const projectCatalog: ProjectLink[] = [
   },
   {
     description: "Persona-based AI chat where you can pin, create, and chat with generated famous-person personas.",
-    vercelProject: "verbose-disco",
-    productionUrl: "https://verbose-disco-kappa.vercel.app",
+    vercelProject: "persona",
+    productionUrl: "https://persona-ashy.vercel.app",
   },
   {
     description: "Personal expense logger that parses natural-language entries with Gemini and stores data locally.",
