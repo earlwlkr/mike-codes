@@ -38,6 +38,16 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
     }
   };
 
+  const formatLastUpdated = (value: string) => {
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    }).format(new Date(value));
+  };
+
   return (
     <>
       <section className="rounded-2xl border border-slate-300 bg-white/70 p-4 shadow-sm backdrop-blur transition-colors dark:border-slate-800 dark:bg-slate-950/60">
@@ -61,9 +71,10 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
       </section>
 
       <section className="overflow-hidden rounded-3xl border border-slate-300 bg-white/80 shadow-2xl shadow-slate-300/30 backdrop-blur transition-colors dark:border-slate-800 dark:bg-slate-950/70 dark:shadow-emerald-950/20">
-        <div className="grid grid-cols-[1fr_auto] border-b border-slate-300 bg-slate-100/90 px-4 py-3 font-mono text-xs tracking-[0.12em] text-slate-600 uppercase md:grid-cols-[220px_1fr_260px] md:px-6 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-400">
+        <div className="grid grid-cols-[1fr_auto] border-b border-slate-300 bg-slate-100/90 px-4 py-3 font-mono text-xs tracking-[0.12em] text-slate-600 uppercase md:grid-cols-[220px_1fr_180px_140px] md:px-6 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-400">
           <span>Project</span>
           <span className="hidden md:block">Description</span>
+          <span className="hidden md:block">Updated</span>
           <span className="text-right">Actions</span>
         </div>
 
@@ -78,14 +89,21 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
             {filteredProjects.map((project) => (
               <li
                 key={project.vercelProject}
-                className="grid grid-cols-[1fr_auto] items-center gap-3 border-b border-slate-200 px-4 py-4 transition hover:bg-slate-100 md:grid-cols-[220px_1fr_260px] md:px-6 dark:border-slate-900 dark:hover:bg-slate-900/70"
+                className="grid grid-cols-[1fr_auto] items-center gap-3 border-b border-slate-200 px-4 py-4 transition hover:bg-slate-100 md:grid-cols-[220px_1fr_180px_140px] md:px-6 dark:border-slate-900 dark:hover:bg-slate-900/70"
               >
                 <div>
                   <p className="font-mono text-base text-emerald-700 dark:text-emerald-300">{project.vercelProject}</p>
                   <p className="mt-2 text-xs text-slate-600 md:hidden dark:text-slate-300">{project.description}</p>
+                  <p className="mt-2 font-mono text-[11px] tracking-[0.08em] text-slate-500 uppercase md:hidden dark:text-slate-400">
+                    Updated {formatLastUpdated(project.lastUpdatedAt)}
+                  </p>
                 </div>
 
                 <p className="hidden text-sm text-slate-700 md:block dark:text-slate-300">{project.description}</p>
+
+                <p className="hidden font-mono text-xs leading-5 text-slate-600 md:block dark:text-slate-400">
+                  {formatLastUpdated(project.lastUpdatedAt)}
+                </p>
 
                 <div className="flex items-center justify-end gap-2">
                   <button
