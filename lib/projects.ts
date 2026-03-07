@@ -4,7 +4,7 @@ export type ProjectLink = {
   productionUrl: string;
 };
 
-export const projects: ProjectLink[] = [
+const projectCatalog: ProjectLink[] = [
   {
     description: "Currency converter with multi-currency output plus a timezone conversion panel.",
     vercelProject: "currency",
@@ -36,3 +36,34 @@ export const projects: ProjectLink[] = [
     productionUrl: "https://numberdi.vercel.app",
   },
 ];
+
+function normalizeProjects(input: ProjectLink[]): readonly ProjectLink[] {
+  const seen = new Set<string>();
+
+  const normalized = input.map((project) => {
+    const key = project.vercelProject.trim().toLowerCase();
+
+    if (seen.has(key)) {
+      throw new Error(`Duplicate vercelProject key found: ${project.vercelProject}`);
+    }
+
+    seen.add(key);
+
+    const parsedUrl = new URL(project.productionUrl);
+
+    if (parsedUrl.protocol !== "https:") {
+      throw new Error(`Only https URLs are allowed: ${project.productionUrl}`);
+    }
+
+    return {
+      ...project,
+      vercelProject: project.vercelProject.trim(),
+      description: project.description.trim(),
+      productionUrl: parsedUrl.toString(),
+    };
+  });
+
+  return normalized.toSorted((a, b) => a.vercelProject.localeCompare(b.vercelProject));
+}
+
+export const projects = normalizeProjects(projectCatalog);
