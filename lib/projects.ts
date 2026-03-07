@@ -55,11 +55,19 @@ function normalizeProjects(input: ProjectLink[]): readonly ProjectLink[] {
       throw new Error(`Only https URLs are allowed: ${project.productionUrl}`);
     }
 
+    if (!parsedUrl.hostname) {
+      throw new Error(`Invalid production URL hostname: ${project.productionUrl}`);
+    }
+
+    // Normalize to origin + pathname and drop hash/search to keep launcher links stable.
+    const normalizedPath = parsedUrl.pathname.replace(/\/$/, "") || "/";
+    const normalizedUrl = `${parsedUrl.origin}${normalizedPath}`;
+
     return {
       ...project,
       vercelProject: project.vercelProject.trim(),
       description: project.description.trim(),
-      productionUrl: parsedUrl.toString(),
+      productionUrl: normalizedUrl,
     };
   });
 
