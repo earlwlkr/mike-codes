@@ -12,6 +12,7 @@ type ProjectBoardProps = {
 export function ProjectBoard({ projects }: ProjectBoardProps) {
   const [query, setQuery] = useState("");
   const [copiedProject, setCopiedProject] = useState<string | null>(null);
+  const [copyErrorProject, setCopyErrorProject] = useState<string | null>(null);
 
   const normalizedQuery = query.trim().toLowerCase();
 
@@ -28,13 +29,41 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
     });
   }, [projects, normalizedQuery]);
 
+  const copyWithFallback = async (value: string) => {
+    if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(value);
+      return;
+    }
+
+    const textArea = document.createElement("textarea");
+    textArea.value = value;
+    textArea.setAttribute("readonly", "");
+    textArea.style.position = "absolute";
+    textArea.style.left = "-9999px";
+    document.body.appendChild(textArea);
+    textArea.select();
+
+    try {
+      const successful = document.execCommand("copy");
+      if (!successful) {
+        throw new Error("Fallback clipboard copy failed");
+      }
+    } finally {
+      document.body.removeChild(textArea);
+    }
+  };
+
   const handleCopy = async (project: ProjectLink) => {
     try {
-      await navigator.clipboard.writeText(project.productionUrl);
+      await copyWithFallback(project.productionUrl);
       setCopiedProject(project.vercelProject);
+      setCopyErrorProject(null);
       window.setTimeout(() => setCopiedProject(null), 1400);
+      return;
     } catch {
       setCopiedProject(null);
+      setCopyErrorProject(project.vercelProject);
+      window.setTimeout(() => setCopyErrorProject(null), 2200);
     }
   };
 
@@ -110,8 +139,13 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
                     type="button"
                     onClick={() => handleCopy(project)}
                     className="inline-flex items-center justify-center gap-1 rounded-md border border-slate-400/50 bg-slate-200/70 px-3 py-1.5 font-mono text-xs text-slate-700 transition hover:border-slate-500 hover:bg-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-slate-500 dark:hover:bg-slate-700"
+                    aria-live="polite"
                   >
-                    {copiedProject === project.vercelProject ? "COPIED" : "COPY"}
+                    {copiedProject === project.vercelProject
+                      ? "COPIED"
+                      : copyErrorProject === project.vercelProject
+                        ? "FAILED"
+                        : "COPY"}
                     <IconCopy className="size-3.5" />
                   </button>
 
