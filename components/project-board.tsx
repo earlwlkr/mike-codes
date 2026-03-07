@@ -68,13 +68,18 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
   };
 
   const formatLastUpdated = (value: string) => {
+    const timestamp = new Date(value);
+    if (!Number.isFinite(timestamp.getTime())) {
+      return "Unknown";
+    }
+
     return new Intl.DateTimeFormat("en-US", {
       month: "short",
       day: "numeric",
       year: "numeric",
       hour: "numeric",
       minute: "2-digit",
-    }).format(new Date(value));
+    }).format(timestamp);
   };
 
   return (

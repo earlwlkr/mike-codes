@@ -52,6 +52,7 @@ const projectCatalog: ProjectLink[] = [
 
 function normalizeProjects(input: ProjectLink[]): readonly ProjectLink[] {
   const seen = new Set<string>();
+  const seenProductionUrls = new Set<string>();
 
   const normalized = input.map((project) => {
     const key = project.vercelProject.trim().toLowerCase();
@@ -75,11 +76,23 @@ function normalizeProjects(input: ProjectLink[]): readonly ProjectLink[] {
     // Normalize to origin + pathname and drop hash/search to keep launcher links stable.
     const normalizedPath = parsedUrl.pathname.replace(/\/$/, "") || "/";
     const normalizedUrl = `${parsedUrl.origin}${normalizedPath}`;
+    const parsedLastUpdated = new Date(project.lastUpdatedAt);
+
+    if (!Number.isFinite(parsedLastUpdated.getTime())) {
+      throw new Error(`Invalid lastUpdatedAt timestamp: ${project.lastUpdatedAt}`);
+    }
+
+    if (seenProductionUrls.has(normalizedUrl)) {
+      throw new Error(`Duplicate production URL found: ${normalizedUrl}`);
+    }
+
+    seenProductionUrls.add(normalizedUrl);
 
     return {
       ...project,
       vercelProject: project.vercelProject.trim(),
       description: project.description.trim(),
+      lastUpdatedAt: project.lastUpdatedAt.trim(),
       productionUrl: normalizedUrl,
     };
   });
