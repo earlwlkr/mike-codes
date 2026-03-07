@@ -124,3 +124,22 @@
     @apply bg-background text-foreground;
   }
 }
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 1rem;
+  z-index: 50;
+  border-radius: 0.5rem;
+  background: oklch(0.59 0.14 242);
+  padding: 0.5rem 0.75rem;
+  color: oklch(0.98 0.01 237);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: top 150ms ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
