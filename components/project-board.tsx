@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { IconArrowUpRight, IconCopy, IconTerminal2 } from "@tabler/icons-react";
 
 import type { ProjectLink } from "@/lib/projects";
@@ -14,6 +14,8 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
   const [sortMode, setSortMode] = useState<"name" | "updated">("updated");
   const [copiedProject, setCopiedProject] = useState<string | null>(null);
   const [copyErrorProject, setCopyErrorProject] = useState<string | null>(null);
+  const copyResetTimeoutRef = useRef<number | null>(null);
+  const copyErrorResetTimeoutRef = useRef<number | null>(null);
 
   const normalizedQuery = query.trim().toLowerCase();
 
@@ -79,14 +81,31 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
       await copyWithFallback(project.productionUrl);
       setCopiedProject(project.vercelProject);
       setCopyErrorProject(null);
-      window.setTimeout(() => setCopiedProject(null), 1400);
+      if (copyResetTimeoutRef.current) {
+        window.clearTimeout(copyResetTimeoutRef.current);
+      }
+      copyResetTimeoutRef.current = window.setTimeout(() => setCopiedProject(null), 1400);
       return;
     } catch {
       setCopiedProject(null);
       setCopyErrorProject(project.vercelProject);
-      window.setTimeout(() => setCopyErrorProject(null), 2200);
+      if (copyErrorResetTimeoutRef.current) {
+        window.clearTimeout(copyErrorResetTimeoutRef.current);
+      }
+      copyErrorResetTimeoutRef.current = window.setTimeout(() => setCopyErrorProject(null), 2200);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (copyResetTimeoutRef.current) {
+        window.clearTimeout(copyResetTimeoutRef.current);
+      }
+      if (copyErrorResetTimeoutRef.current) {
+        window.clearTimeout(copyErrorResetTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const formatLastUpdated = (value: string) => {
     const timestamp = new Date(value);
@@ -194,6 +213,7 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
                     onClick={() => handleCopy(project)}
                     className="inline-flex items-center justify-center gap-1 rounded-md border border-slate-400/50 bg-slate-200/70 px-3 py-1.5 font-mono text-xs text-slate-700 transition hover:border-slate-500 hover:bg-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-slate-500 dark:hover:bg-slate-700"
                     aria-live="polite"
+                    aria-label={`Copy URL for ${project.vercelProject}`}
                   >
                     {copiedProject === project.vercelProject
                       ? "COPIED"
@@ -208,6 +228,7 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
                     href={project.productionUrl}
                     rel="noreferrer"
                     target="_blank"
+                    aria-label={`Open ${project.vercelProject} in a new tab`}
                   >
                     OPEN
                     <IconArrowUpRight className="size-3.5" />
