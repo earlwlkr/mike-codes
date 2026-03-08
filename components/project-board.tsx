@@ -11,23 +11,44 @@ type ProjectBoardProps = {
 
 export function ProjectBoard({ projects }: ProjectBoardProps) {
   const [query, setQuery] = useState("");
+  const [sortMode, setSortMode] = useState<"name" | "updated">("updated");
   const [copiedProject, setCopiedProject] = useState<string | null>(null);
   const [copyErrorProject, setCopyErrorProject] = useState<string | null>(null);
 
   const normalizedQuery = query.trim().toLowerCase();
 
   const filteredProjects = useMemo(() => {
-    if (!normalizedQuery) {
-      return projects;
+    const visibleProjects = normalizedQuery
+      ? projects.filter((project) => {
+          return (
+            project.vercelProject.toLowerCase().includes(normalizedQuery) ||
+            project.description.toLowerCase().includes(normalizedQuery)
+          );
+        })
+      : [...projects];
+
+    if (sortMode === "updated") {
+      return [...visibleProjects].sort((a, b) => {
+        return new Date(b.lastUpdatedAt).getTime() - new Date(a.lastUpdatedAt).getTime();
+      });
     }
 
-    return projects.filter((project) => {
-      return (
-        project.vercelProject.toLowerCase().includes(normalizedQuery) ||
-        project.description.toLowerCase().includes(normalizedQuery)
-      );
+    return [...visibleProjects].sort((a, b) => {
+      return a.vercelProject.localeCompare(b.vercelProject);
     });
-  }, [projects, normalizedQuery]);
+  }, [projects, normalizedQuery, sortMode]);
+
+  const latestProject = useMemo(() => {
+    return projects.reduce<ProjectLink | null>((latest, current) => {
+      if (!latest) {
+        return current;
+      }
+
+      return new Date(current.lastUpdatedAt).getTime() > new Date(latest.lastUpdatedAt).getTime()
+        ? current
+        : latest;
+    }, null);
+  }, [projects]);
 
   const copyWithFallback = async (value: string) => {
     if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
@@ -82,10 +103,22 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
     }).format(timestamp);
   };
 
+  const filteredCountLabel = `${filteredProjects.length} / ${projects.length}`;
+  const matchesLatestProject =
+    latestProject &&
+    filteredProjects.length > 0 &&
+    filteredProjects[0]?.vercelProject === latestProject.vercelProject;
+
+  const latestLabel = matchesLatestProject
+    ? `Latest: ${latestProject.vercelProject}`
+    : "Latest hidden by filter/sort";
+
+  const sortLabel = sortMode === "updated" ? "Updated" : "Name";
+
   return (
     <>
       <section className="rounded-2xl border border-slate-300 bg-white/70 p-4 shadow-sm backdrop-blur transition-colors dark:border-slate-800 dark:bg-slate-950/60">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <label className="flex-1">
             <span className="mb-2 block font-mono text-[11px] tracking-[0.12em] text-slate-500 uppercase dark:text-slate-400">
               Filter projects
@@ -98,9 +131,25 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
             />
           </label>
 
-          <div className="font-mono text-xs tracking-[0.12em] text-slate-500 uppercase dark:text-slate-400">
-            Showing {filteredProjects.length} / {projects.length}
-          </div>
+          <label className="md:w-52">
+            <span className="mb-2 block font-mono text-[11px] tracking-[0.12em] text-slate-500 uppercase dark:text-slate-400">
+              Sort by
+            </span>
+            <select
+              value={sortMode}
+              onChange={(event) => setSortMode(event.target.value as "name" | "updated")}
+              className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-emerald-400 dark:focus:ring-emerald-900/60"
+            >
+              <option value="updated">Recently updated</option>
+              <option value="name">Project name</option>
+            </select>
+          </label>
+        </div>
+
+        <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-xs tracking-[0.12em] text-slate-500 uppercase dark:text-slate-400">
+          <span>Showing {filteredCountLabel}</span>
+          <span>Sort {sortLabel}</span>
+          <span>{latestLabel}</span>
         </div>
       </section>
 
