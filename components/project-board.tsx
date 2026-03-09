@@ -14,6 +14,7 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
   const [sortMode, setSortMode] = useState<"name" | "updated">("updated");
   const [copiedProject, setCopiedProject] = useState<string | null>(null);
   const [copyErrorProject, setCopyErrorProject] = useState<string | null>(null);
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
   const copyResetTimeoutRef = useRef<number | null>(null);
   const copyErrorResetTimeoutRef = useRef<number | null>(null);
 
@@ -98,7 +99,28 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
   };
 
   useEffect(() => {
+    const handleGlobalKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "/") {
+        return;
+      }
+
+      const target = event.target as HTMLElement | null;
+      const targetTag = target?.tagName;
+      const isTypingContext =
+        target?.isContentEditable || targetTag === "INPUT" || targetTag === "TEXTAREA" || targetTag === "SELECT";
+
+      if (isTypingContext) {
+        return;
+      }
+
+      event.preventDefault();
+      searchInputRef.current?.focus();
+    };
+
+    window.addEventListener("keydown", handleGlobalKeyDown);
+
     return () => {
+      window.removeEventListener("keydown", handleGlobalKeyDown);
       if (copyResetTimeoutRef.current) {
         window.clearTimeout(copyResetTimeoutRef.current);
       }
@@ -141,19 +163,26 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <label className="flex-1">
             <span className="mb-2 block font-mono text-[11px] tracking-[0.12em] text-slate-500 uppercase dark:text-slate-400">
-              Filter projects
+              Filter projects (press /)
             </span>
             <input
+              ref={searchInputRef}
               className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm outline-none transition focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-emerald-400 dark:focus:ring-emerald-900/60"
               placeholder="Search by name or description"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               onKeyDown={(event) => {
                 if (event.key === "Escape") {
-                  setQuery("");
+                  if (query) {
+                    setQuery("");
+                    return;
+                  }
+
+                  event.currentTarget.blur();
                 }
               }}
               aria-label="Filter projects"
+              aria-keyshortcuts="/"
             />
           </label>
 
@@ -180,6 +209,13 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
       </section>
 
       <section className="overflow-hidden rounded-3xl border border-slate-300 bg-white/80 shadow-2xl shadow-slate-300/30 backdrop-blur transition-colors dark:border-slate-800 dark:bg-slate-950/70 dark:shadow-emerald-950/20">
+        <p className="sr-only" role="status" aria-live="polite">
+          {copiedProject
+            ? `Copied URL for ${copiedProject}`
+            : copyErrorProject
+              ? `Unable to copy URL for ${copyErrorProject}`
+              : ""}
+        </p>
         <div className="grid grid-cols-[1fr_auto] border-b border-slate-300 bg-slate-100/90 px-4 py-3 font-mono text-xs tracking-[0.12em] text-slate-600 uppercase md:grid-cols-[220px_1fr_180px_140px] md:px-6 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-400">
           <span>Project</span>
           <span className="hidden md:block">Description</span>
@@ -219,7 +255,6 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
                     type="button"
                     onClick={() => handleCopy(project)}
                     className="inline-flex items-center justify-center gap-1 rounded-md border border-slate-400/50 bg-slate-200/70 px-3 py-1.5 font-mono text-xs text-slate-700 transition hover:border-slate-500 hover:bg-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-slate-500 dark:hover:bg-slate-700"
-                    aria-live="polite"
                     aria-label={`Copy URL for ${project.vercelProject}`}
                   >
                     {copiedProject === project.vercelProject
