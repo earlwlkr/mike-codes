@@ -24,7 +24,8 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
       ? projects.filter((project) => {
           return (
             project.vercelProject.toLowerCase().includes(normalizedQuery) ||
-            project.description.toLowerCase().includes(normalizedQuery)
+            project.description.toLowerCase().includes(normalizedQuery) ||
+            project.productionUrl.toLowerCase().includes(normalizedQuery)
           );
         })
       : [...projects];
@@ -147,6 +148,12 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
               placeholder="Search by name or description"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Escape") {
+                  setQuery("");
+                }
+              }}
+              aria-label="Filter projects"
             />
           </label>
 
