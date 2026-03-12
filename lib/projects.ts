@@ -43,6 +43,18 @@ const projectCatalog: ProjectLink[] = [
     productionUrl: "https://numberdi.vercel.app",
   },
   {
+    description: "Ambient emotional forecast app with calm daily guidance across today, tonight, and tomorrow.",
+    lastUpdatedAt: "2026-03-12T16:19:00+07:00",
+    vercelProject: "emotiondi",
+    productionUrl: "https://emotiondi.vercel.app",
+  },
+  {
+    description: "Mystic tarot-of-the-day app with ritual card reveals, reflections, and shareable readings.",
+    lastUpdatedAt: "2026-03-12T10:50:46+07:00",
+    vercelProject: "tarotdi",
+    productionUrl: "https://tarotdi.vercel.app",
+  },
+  {
     description: "AI trip planner that generates structured itineraries with Vercel AI Gateway and saves trips in Convex.",
     lastUpdatedAt: "2026-03-07T21:16:27+07:00",
     vercelProject: "tripdi",
