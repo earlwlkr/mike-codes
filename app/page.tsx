@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { DeployHealthDashboard } from "@/components/deploy-health-dashboard";
 import { ProjectBoard } from "@/components/project-board";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { projects } from "@/lib/projects";
@@ -34,8 +33,6 @@ export default function Page() {
             </p>
           </div>
         </header>
-
-        <DeployHealthDashboard />
         <ProjectBoard projects={projects} />
       </div>
     </main>
