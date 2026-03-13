@@ -29,7 +29,7 @@ export default function Page() {
               Terminal Board
             </h1>
             <p className="max-w-3xl font-mono text-sm text-slate-700 md:text-base dark:text-slate-300">
-              Fast launch interface with command-line flavor and high signal-to-noise.
+              Fast launch interface for your production apps—because your &quot;I&apos;ll just whip up a quick tool&quot; apps need a control center too.
             </p>
           </div>
         </header>
