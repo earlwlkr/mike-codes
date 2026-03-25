@@ -7,6 +7,12 @@ export type ProjectLink = {
 
 const projectCatalog: ProjectLink[] = [
   {
+    description: "Live comet observation dashboard powered by NASA/JPL nightly visibility and orbit data.",
+    lastUpdatedAt: "2026-03-25T21:36:09+07:00",
+    vercelProject: "comet-tracker",
+    productionUrl: "https://comet-tracker.vercel.app",
+  },
+  {
     description: "Currency converter with multi-currency output plus a timezone conversion panel.",
     lastUpdatedAt: "2026-03-07T20:08:47+07:00",
     vercelProject: "currency",
