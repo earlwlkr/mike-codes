@@ -50,9 +50,9 @@ const projectCatalog: ProjectLink[] = [
   },
   {
     description: "Personal expense logger that parses natural-language entries with Gemini and stores data locally.",
-    lastUpdatedAt: "2026-03-07T13:04:16+07:00",
+    lastUpdatedAt: "2026-03-28T20:20:02+07:00",
     vercelProject: "spendi",
-    productionUrl: "https://smart-expense-web.vercel.app",
+    productionUrl: "https://spendi-woad.vercel.app",
   },
   {
     description: "Multiplayer number-finding race game with join codes, lobby/countdown flow, and winner screen.",
