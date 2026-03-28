@@ -8,45 +8,15 @@ export type ProjectLink = {
 const projectCatalog: ProjectLink[] = [
   {
     description: "Live comet observation dashboard powered by NASA/JPL nightly visibility and orbit data.",
-    lastUpdatedAt: "2026-03-25T21:36:09+07:00",
+    lastUpdatedAt: "2026-03-25T22:12:45+07:00",
     vercelProject: "comet-tracker",
     productionUrl: "https://comet-tracker.vercel.app",
   },
   {
-    description: "Currency converter with multi-currency output plus a timezone conversion panel.",
-    lastUpdatedAt: "2026-03-07T20:08:47+07:00",
-    vercelProject: "currency",
-    productionUrl: "https://currency-nine-peach.vercel.app",
-  },
-  {
-    description: "Group expense tracker to split costs, balances, and analytics with shareable read-only links.",
-    lastUpdatedAt: "2026-03-01T11:03:09+07:00",
-    vercelProject: "smart-expense",
-    productionUrl: "https://smart-expense-one.vercel.app",
-  },
-  {
-    description: "Persona-based AI chat where you can pin, create, and chat with generated famous-person personas.",
-    lastUpdatedAt: "2026-03-07T20:08:46+07:00",
-    vercelProject: "persona",
-    productionUrl: "https://verbose-disco-kappa.vercel.app/",
-  },
-  {
-    description: "Personal expense logger that parses natural-language entries with Gemini and stores data locally.",
-    lastUpdatedAt: "2026-03-07T20:08:45+07:00",
-    vercelProject: "spendi",
-    productionUrl: "https://smart-expense-web.vercel.app",
-  },
-  {
-    description: "Mobile-first color contest app: submit photos to match target colors and compete on leaderboards.",
-    lastUpdatedAt: "2026-02-10T19:55:05+07:00",
-    vercelProject: "colordi",
-    productionUrl: "https://colordi-blond.vercel.app",
-  },
-  {
-    description: "Multiplayer number-finding race game with join codes, lobby/countdown flow, and winner screen.",
-    lastUpdatedAt: "2026-02-25T22:29:51+07:00",
-    vercelProject: "numberdi",
-    productionUrl: "https://numberdi.vercel.app",
+    description: "Location-based social travel journal for posting photos, exploring memories, and browsing the city map.",
+    lastUpdatedAt: "2026-03-22T16:06:53+07:00",
+    vercelProject: "rove-city",
+    productionUrl: "https://rove-city.vercel.app",
   },
   {
     description: "Ambient emotional forecast app with calm daily guidance across today, tonight, and tomorrow.",
@@ -56,15 +26,51 @@ const projectCatalog: ProjectLink[] = [
   },
   {
     description: "Mystic tarot-of-the-day app with ritual card reveals, reflections, and shareable readings.",
-    lastUpdatedAt: "2026-03-12T10:50:46+07:00",
+    lastUpdatedAt: "2026-03-14T20:59:20+07:00",
     vercelProject: "tarotdi",
     productionUrl: "https://tarotdi.vercel.app",
   },
   {
     description: "AI trip planner that generates structured itineraries with Vercel AI Gateway and saves trips in Convex.",
-    lastUpdatedAt: "2026-03-07T21:16:27+07:00",
+    lastUpdatedAt: "2026-03-08T22:13:07+07:00",
     vercelProject: "tripdi",
     productionUrl: "https://tripdi-five.vercel.app",
+  },
+  {
+    description: "Currency converter with multi-currency output plus a timezone conversion panel.",
+    lastUpdatedAt: "2026-03-14T22:02:29+07:00",
+    vercelProject: "currency",
+    productionUrl: "https://currency-nine-peach.vercel.app",
+  },
+  {
+    description: "Persona-based AI chat where you can pin, create, and chat with generated famous-person personas.",
+    lastUpdatedAt: "2026-03-07T13:08:42Z",
+    vercelProject: "persona",
+    productionUrl: "https://verbose-disco-kappa.vercel.app/",
+  },
+  {
+    description: "Personal expense logger that parses natural-language entries with Gemini and stores data locally.",
+    lastUpdatedAt: "2026-03-07T13:04:16+07:00",
+    vercelProject: "spendi",
+    productionUrl: "https://smart-expense-web.vercel.app",
+  },
+  {
+    description: "Multiplayer number-finding race game with join codes, lobby/countdown flow, and winner screen.",
+    lastUpdatedAt: "2026-03-01T11:03:25+07:00",
+    vercelProject: "numberdi",
+    productionUrl: "https://numberdi.vercel.app",
+  },
+  {
+    description: "Group expense tracker to split costs, balances, and analytics with shareable read-only links.",
+    lastUpdatedAt: "2026-03-01T11:02:59+07:00",
+    vercelProject: "smart-expense",
+    productionUrl: "https://smart-expense-one.vercel.app",
+  },
+  {
+    description: "Mobile-first color contest app: submit photos to match target colors and compete on leaderboards.",
+    lastUpdatedAt: "2026-02-10T19:54:53+07:00",
+    vercelProject: "colordi",
+    productionUrl: "https://colordi-blond.vercel.app",
   },
 ];
 
@@ -115,7 +121,15 @@ function normalizeProjects(input: ProjectLink[]): readonly ProjectLink[] {
     };
   });
 
-  return normalized.toSorted((a, b) => a.vercelProject.localeCompare(b.vercelProject));
+  return normalized.toSorted((a, b) => {
+    const dateDelta = new Date(b.lastUpdatedAt).getTime() - new Date(a.lastUpdatedAt).getTime();
+
+    if (dateDelta !== 0) {
+      return dateDelta;
+    }
+
+    return a.vercelProject.localeCompare(b.vercelProject);
+  });
 }
 
 export const projects = normalizeProjects(projectCatalog);

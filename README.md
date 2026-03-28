@@ -23,7 +23,7 @@ pnpm start    # run production server
 - Added a searchable project board with instant filtering and no-results UX.
 - Added one-click copy action for project URLs.
 - Hardened project catalog reliability by validating HTTPS URLs and duplicate keys at load time.
-- Project list is now consistently sorted by project name.
+- Project list is now consistently sorted by most recently updated first.
 
 ## Run locally
 
