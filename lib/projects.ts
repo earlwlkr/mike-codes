@@ -14,7 +14,7 @@ const projectCatalog: ProjectLink[] = [
   },
   {
     description: "Location-based social travel journal for posting photos, exploring memories, and browsing the city map.",
-    lastUpdatedAt: "2026-03-22T16:06:53+07:00",
+    lastUpdatedAt: "2026-03-28T21:27:08+07:00",
     vercelProject: "rove-city",
     productionUrl: "https://rove-city.vercel.app",
   },
@@ -38,7 +38,7 @@ const projectCatalog: ProjectLink[] = [
   },
   {
     description: "Currency converter with multi-currency output plus a timezone conversion panel.",
-    lastUpdatedAt: "2026-03-14T22:02:29+07:00",
+    lastUpdatedAt: "2026-03-29T15:06:51+07:00",
     vercelProject: "currency",
     productionUrl: "https://currency-nine-peach.vercel.app",
   },
@@ -50,7 +50,7 @@ const projectCatalog: ProjectLink[] = [
   },
   {
     description: "Personal expense logger that parses natural-language entries with Gemini and stores data locally.",
-    lastUpdatedAt: "2026-03-28T20:20:02+07:00",
+    lastUpdatedAt: "2026-03-28T22:33:11+07:00",
     vercelProject: "spendi",
     productionUrl: "https://spendi-woad.vercel.app",
   },
@@ -62,7 +62,7 @@ const projectCatalog: ProjectLink[] = [
   },
   {
     description: "Group expense tracker to split costs, balances, and analytics with shareable read-only links.",
-    lastUpdatedAt: "2026-03-01T11:02:59+07:00",
+    lastUpdatedAt: "2026-03-28T14:30:33+07:00",
     vercelProject: "smart-expense",
     productionUrl: "https://smart-expense-one.vercel.app",
   },
