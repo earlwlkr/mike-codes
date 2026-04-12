@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { IconArrowUpRight, IconCheck, IconCopy } from "@tabler/icons-react";
+import { IconCheck, IconCopy, IconExternalLink } from "@tabler/icons-react";
 
 import type { ProjectLink } from "@/lib/projects";
 
@@ -167,16 +167,27 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
                     <td className="align-top py-4 pr-3 text-xs font-semibold tracking-[0.18em] text-foreground/30 md:align-middle">
                       {String(index + 1).padStart(2, "0")}
                     </td>
-                    <td className="min-w-0 max-w-[14rem] align-top py-4 pr-5 md:align-middle">
-                      <p className="truncate text-base font-semibold tracking-[-0.02em] text-foreground transition-colors duration-200 group-hover:text-[var(--accent-strong)]">
-                        {project.vercelProject}
-                      </p>
-                      <span className="mt-1 block truncate text-xs text-foreground/40">
-                        {formatHost(project.productionUrl)}
-                      </span>
-                      <p className="mt-2 text-xs leading-5 text-foreground/45 md:hidden">
-                        Updated {formatLastUpdatedLong(project.lastUpdatedAt)}
-                      </p>
+                    <td className="min-w-0 max-w-[14rem] p-0 align-top md:align-middle">
+                      <a
+                        href={project.productionUrl}
+                        rel="noreferrer"
+                        target="_blank"
+                        className="group/cell block min-w-0 py-4 pr-5 text-left text-foreground no-underline outline-offset-2 transition-colors duration-200 hover:text-[var(--accent-strong)] group-hover:text-[var(--accent-strong)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-background)]"
+                        aria-label={`Open ${project.vercelProject} in a new tab`}
+                      >
+                        <span className="inline-flex min-w-0 max-w-full items-center gap-1.5">
+                          <span className="min-w-0 truncate text-base font-semibold tracking-[-0.02em] underline-offset-2 group-hover/cell:underline">
+                            {project.vercelProject}
+                          </span>
+                          <IconExternalLink className="size-4 shrink-0 opacity-50 transition-opacity group-hover/cell:opacity-80" aria-hidden />
+                        </span>
+                        <span className="mt-1 block truncate text-xs text-foreground/40">
+                          {formatHost(project.productionUrl)}
+                        </span>
+                        <p className="mt-2 text-xs leading-5 text-foreground/45 md:hidden">
+                          Updated {formatLastUpdatedLong(project.lastUpdatedAt)}
+                        </p>
+                      </a>
                     </td>
                     <td className="min-w-0 align-top py-4 pr-5 text-sm leading-6 text-foreground/65 md:align-middle">
                       {project.description}
@@ -208,17 +219,6 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
                             </>
                           )}
                         </button>
-
-                        <a
-                          className="inline-flex h-9 items-center justify-center gap-1.5 rounded-full bg-[var(--accent-strong)] px-3.5 text-sm font-semibold text-white transition hover:opacity-92 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-background)]"
-                          href={project.productionUrl}
-                          rel="noreferrer"
-                          target="_blank"
-                          aria-label={`Open ${project.vercelProject} in a new tab`}
-                        >
-                          Open
-                          <IconArrowUpRight className="size-3.5" />
-                        </a>
                       </div>
                     </td>
                   </tr>
