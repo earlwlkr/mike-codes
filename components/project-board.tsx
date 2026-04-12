@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { IconArrowUpRight, IconCopy, IconTerminal2 } from "@tabler/icons-react";
+import { useEffect, useRef, useState } from "react";
+import { IconArrowUpRight, IconCheck, IconCopy } from "@tabler/icons-react";
 
 import type { ProjectLink } from "@/lib/projects";
 
@@ -14,6 +14,18 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
   const [copyErrorProject, setCopyErrorProject] = useState<string | null>(null);
   const copyResetTimeoutRef = useRef<number | null>(null);
   const copyErrorResetTimeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (copyResetTimeoutRef.current) {
+        window.clearTimeout(copyResetTimeoutRef.current);
+      }
+
+      if (copyErrorResetTimeoutRef.current) {
+        window.clearTimeout(copyErrorResetTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const copyWithFallback = async (value: string) => {
     if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
@@ -69,91 +81,153 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
       month: "short",
       day: "numeric",
       year: "numeric",
+    }).format(timestamp);
+  };
+
+  const formatLastUpdatedLong = (value: string) => {
+    const timestamp = new Date(value);
+    if (!Number.isFinite(timestamp.getTime())) {
+      return "Unknown";
+    }
+
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
       hour: "numeric",
       minute: "2-digit",
     }).format(timestamp);
   };
 
+  const formatHost = (value: string) => new URL(value).hostname.replace(/^www\./, "");
+
   return (
-    <>
-      <section className="overflow-hidden rounded-3xl border border-slate-300 bg-white/80 shadow-2xl shadow-slate-300/30 backdrop-blur transition-colors dark:border-slate-800 dark:bg-slate-950/70 dark:shadow-emerald-950/20">
-        <p className="sr-only" role="status" aria-live="polite">
-          {copiedProject
-            ? `Copied URL for ${copiedProject}`
-            : copyErrorProject
-              ? `Unable to copy URL for ${copyErrorProject}`
-              : ""}
-        </p>
-        <div className="grid grid-cols-[1fr_auto] border-b border-slate-300 bg-slate-100/90 px-4 py-3 font-mono text-xs tracking-[0.12em] text-slate-600 uppercase md:grid-cols-[220px_1fr_180px_140px] md:px-6 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-400">
-          <span>Project</span>
-          <span className="hidden md:block">Description</span>
-          <span className="hidden md:block">Updated</span>
-          <span className="text-right">Actions</span>
-        </div>
+    <section className="animate-enter-delay flex-1">
+      <p className="sr-only" role="status" aria-live="polite">
+        {copiedProject
+          ? `Copied URL for ${copiedProject}`
+          : copyErrorProject
+            ? `Unable to copy URL for ${copyErrorProject}`
+            : ""}
+      </p>
 
+      <div className="border-y border-black/10 dark:border-white/10">
         {projects.length === 0 ? (
-          <div className="px-6 py-12 text-center">
-            <p className="font-mono text-sm text-slate-500 dark:text-slate-400">
-              No projects yet.
-            </p>
-          </div>
+          <div className="py-14 text-sm text-foreground/50">No projects yet.</div>
         ) : (
-          <ul>
-            {projects.map((project) => (
-              <li
-                key={project.vercelProject}
-                className="grid grid-cols-[1fr_auto] items-center gap-3 border-b border-slate-200 px-4 py-4 transition hover:bg-slate-100 md:grid-cols-[220px_1fr_180px_140px] md:px-6 dark:border-slate-900 dark:hover:bg-slate-900/70"
-              >
-                <div>
-                  <p className="font-mono text-base text-emerald-700 dark:text-emerald-300">{project.vercelProject}</p>
-                  <p className="mt-2 text-xs text-slate-600 md:hidden dark:text-slate-300">{project.description}</p>
-                  <p className="mt-2 font-mono text-[11px] tracking-[0.08em] text-slate-500 uppercase md:hidden dark:text-slate-400">
-                    Updated {formatLastUpdated(project.lastUpdatedAt)}
-                  </p>
-                </div>
-
-                <p className="hidden text-sm text-slate-700 md:block dark:text-slate-300">{project.description}</p>
-
-                <p className="hidden font-mono text-xs leading-5 text-slate-600 md:block dark:text-slate-400">
-                  {formatLastUpdated(project.lastUpdatedAt)}
-                </p>
-
-                <div className="flex items-center justify-end gap-2">
-                  <button
-                    type="button"
-                    onClick={() => handleCopy(project)}
-                    className="inline-flex items-center justify-center gap-1 rounded-md border border-slate-400/50 bg-slate-200/70 px-3 py-1.5 font-mono text-xs text-slate-700 transition hover:border-slate-500 hover:bg-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-slate-500 dark:hover:bg-slate-700"
-                    aria-label={`Copy URL for ${project.vercelProject}`}
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[44rem] border-collapse text-left">
+              <caption className="sr-only">Vercel projects with descriptions, last updated dates, and actions</caption>
+              <colgroup>
+                <col className="w-12" />
+                <col className="w-56" />
+                <col />
+                <col className="w-36" />
+              </colgroup>
+              <thead>
+                <tr className="border-b border-black/10 dark:border-white/10">
+                  <th
+                    scope="col"
+                    className="py-3 pr-3 text-[11px] font-semibold tracking-[0.18em] text-foreground/45 uppercase"
                   >
-                    {copiedProject === project.vercelProject
-                      ? "COPIED"
-                      : copyErrorProject === project.vercelProject
-                        ? "FAILED"
-                        : "COPY"}
-                    <IconCopy className="size-3.5" />
-                  </button>
-
-                  <a
-                    className="inline-flex items-center justify-center gap-1 rounded-md border border-emerald-600/40 bg-emerald-600/10 px-3 py-1.5 font-mono text-xs text-emerald-800 transition hover:border-emerald-600 hover:bg-emerald-600 hover:text-white dark:border-emerald-500/50 dark:bg-emerald-500/10 dark:text-emerald-200 dark:hover:border-emerald-300 dark:hover:bg-emerald-300 dark:hover:text-emerald-950"
-                    href={project.productionUrl}
-                    rel="noreferrer"
-                    target="_blank"
-                    aria-label={`Open ${project.vercelProject} in a new tab`}
+                    No.
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-3 pr-5 text-[11px] font-semibold tracking-[0.18em] text-foreground/45 uppercase"
                   >
-                    OPEN
-                    <IconArrowUpRight className="size-3.5" />
-                  </a>
-                </div>
-              </li>
-            ))}
-          </ul>
+                    Project
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-3 pr-5 text-[11px] font-semibold tracking-[0.18em] text-foreground/45 uppercase"
+                  >
+                    Description
+                  </th>
+                  <th
+                    scope="col"
+                    className="hidden py-3 pr-5 text-right text-[11px] font-semibold tracking-[0.18em] text-foreground/45 uppercase md:table-cell"
+                  >
+                    Updated
+                  </th>
+                  <th
+                    scope="col"
+                    className="py-3 pl-3 text-right text-[11px] font-semibold tracking-[0.18em] text-foreground/45 uppercase"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {projects.map((project, index) => (
+                  <tr
+                    key={project.vercelProject}
+                    className="group border-t border-black/10 transition-colors first:border-t-0 hover:bg-black/4 dark:border-white/10 dark:hover:bg-white/6"
+                  >
+                    <td className="align-top py-4 pr-3 text-xs font-semibold tracking-[0.18em] text-foreground/30 md:align-middle">
+                      {String(index + 1).padStart(2, "0")}
+                    </td>
+                    <td className="min-w-0 max-w-[14rem] align-top py-4 pr-5 md:align-middle">
+                      <p className="truncate text-base font-semibold tracking-[-0.02em] text-foreground transition-colors duration-200 group-hover:text-[var(--accent-strong)]">
+                        {project.vercelProject}
+                      </p>
+                      <span className="mt-1 block truncate text-xs text-foreground/40">
+                        {formatHost(project.productionUrl)}
+                      </span>
+                      <p className="mt-2 text-xs leading-5 text-foreground/45 md:hidden">
+                        Updated {formatLastUpdatedLong(project.lastUpdatedAt)}
+                      </p>
+                    </td>
+                    <td className="min-w-0 align-top py-4 pr-5 text-sm leading-6 text-foreground/65 md:align-middle">
+                      {project.description}
+                    </td>
+                    <td className="hidden align-top py-4 pr-5 text-sm tabular-nums text-foreground/45 md:table-cell md:align-middle md:text-right">
+                      <time dateTime={project.lastUpdatedAt} title={formatLastUpdatedLong(project.lastUpdatedAt)}>
+                        {formatLastUpdated(project.lastUpdatedAt)}
+                      </time>
+                    </td>
+                    <td className="align-top py-4 pl-3 md:align-middle">
+                      <div className="flex flex-nowrap items-center justify-end gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleCopy(project)}
+                          className="inline-flex h-9 items-center justify-center gap-1.5 rounded-full border border-black/10 px-3 text-sm text-foreground/70 transition hover:border-black/20 hover:bg-black/4 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)] dark:border-white/10 dark:hover:border-white/20 dark:hover:bg-white/6"
+                          aria-label={`Copy URL for ${project.vercelProject}`}
+                        >
+                          {copiedProject === project.vercelProject ? (
+                            <>
+                              Copied
+                              <IconCheck className="size-3.5" />
+                            </>
+                          ) : copyErrorProject === project.vercelProject ? (
+                            "Retry"
+                          ) : (
+                            <>
+                              Copy
+                              <IconCopy className="size-3.5" />
+                            </>
+                          )}
+                        </button>
+
+                        <a
+                          className="inline-flex h-9 items-center justify-center gap-1.5 rounded-full bg-[var(--accent-strong)] px-3.5 text-sm font-semibold text-white transition hover:opacity-92 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--page-background)]"
+                          href={project.productionUrl}
+                          rel="noreferrer"
+                          target="_blank"
+                          aria-label={`Open ${project.vercelProject} in a new tab`}
+                        >
+                          Open
+                          <IconArrowUpRight className="size-3.5" />
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
-      </section>
-
-      <footer className="flex items-center gap-2 font-mono text-xs tracking-[0.12em] text-slate-500 uppercase dark:text-slate-400">
-        <IconTerminal2 className="size-4 text-emerald-600 dark:text-emerald-400" />
-        mike-codes
-      </footer>
-    </>
+      </div>
+    </section>
   );
 }
