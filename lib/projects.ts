@@ -7,14 +7,14 @@ export type ProjectLink = {
 
 const projectCatalog: ProjectLink[] = [
   {
-    description: "Live comet observation dashboard powered by NASA/JPL nightly visibility and orbit data.",
-    lastUpdatedAt: "2026-04-07T20:55:27+07:00",
+    description: "NASA Signal Desk that unifies multiple live NASA API views with a catalog of built and planned mission data surfaces.",
+    lastUpdatedAt: "2026-04-12T15:37:44+07:00",
     vercelProject: "comet-tracker",
     productionUrl: "https://comet-tracker.vercel.app",
   },
   {
-    description: "Location-based social travel journal for posting photos, exploring memories, and browsing the city map.",
-    lastUpdatedAt: "2026-04-07T20:57:38+07:00",
+    description: "Location-based social travel journal with anonymous posting, global feed, and interactive map memories.",
+    lastUpdatedAt: "2026-04-11T16:16:26+07:00",
     vercelProject: "rove-city",
     productionUrl: "https://rove-city.vercel.app",
   },
@@ -25,7 +25,7 @@ const projectCatalog: ProjectLink[] = [
     productionUrl: "https://emotiondi.vercel.app",
   },
   {
-    description: "Mystic tarot-of-the-day app with ritual card reveals, reflections, and shareable readings.",
+    description: "Tarot-of-the-day ritual app with single-card reveals, reflective guidance, and shareable daily readings.",
     lastUpdatedAt: "2026-04-07T20:55:27+07:00",
     vercelProject: "tarotdi",
     productionUrl: "https://tarotdi.vercel.app",
@@ -37,26 +37,26 @@ const projectCatalog: ProjectLink[] = [
     productionUrl: "https://tripdi-five.vercel.app",
   },
   {
-    description: "Currency converter with multi-currency output plus a timezone conversion panel.",
+    description: "Compact utility for multi-currency amount conversion paired with timezone conversion in one screen.",
     lastUpdatedAt: "2026-04-07T20:55:27+07:00",
     vercelProject: "currency",
     productionUrl: "https://currency-nine-peach.vercel.app",
   },
   {
-    description: "Persona-based AI chat where you can pin, create, and chat with generated famous-person personas.",
-    lastUpdatedAt: "2026-04-07T20:55:46+07:00",
+    description: "AI persona chat app with built-in/custom personas, pinned defaults, and per-persona chat history.",
+    lastUpdatedAt: "2026-04-12T20:47:59+07:00",
     vercelProject: "persona",
     productionUrl: "https://verbose-disco-kappa.vercel.app/",
   },
   {
-    description: "Personal expense logger that parses natural-language entries with Gemini and stores data locally.",
-    lastUpdatedAt: "2026-04-07T20:55:46+07:00",
+    description: "Personal expense tracker that parses natural-language entries via AI and stores data in IndexedDB.",
+    lastUpdatedAt: "2026-04-11T16:14:57+07:00",
     vercelProject: "spendi",
     productionUrl: "https://spendi-woad.vercel.app",
   },
   {
-    description: "Multiplayer number-finding race game with join codes, lobby/countdown flow, and winner screen.",
-    lastUpdatedAt: "2026-04-07T20:55:46+07:00",
+    description: "Multiplayer number-order race game with join codes, lobby countdown, and ranked winner results.",
+    lastUpdatedAt: "2026-04-12T21:32:06+07:00",
     vercelProject: "numberdi",
     productionUrl: "https://numberdi.vercel.app",
   },
@@ -67,7 +67,7 @@ const projectCatalog: ProjectLink[] = [
     productionUrl: "https://smart-expense-one.vercel.app",
   },
   {
-    description: "Mobile-first color contest app: submit photos to match target colors and compete on leaderboards.",
+    description: "Mobile-first color contest app where players submit photos to match target colors and climb leaderboards.",
     lastUpdatedAt: "2026-04-07T20:55:46+07:00",
     vercelProject: "colordi",
     productionUrl: "https://colordi-blond.vercel.app",
