@@ -10,7 +10,7 @@ type ProjectBoardProps = {
   projects: readonly ProjectLink[];
 };
 
-type SortMode = "recent" | "category";
+type SortMode = "recent" | "priority";
 
 export function ProjectBoard({ projects }: ProjectBoardProps) {
   const [copiedProject, setCopiedProject] = useState<string | null>(null);
@@ -146,7 +146,7 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
           </SelectTrigger>
           <SelectContent className="min-w-40 rounded-2xl border border-black/10 bg-[var(--page-background)] p-1 shadow-lg shadow-black/5 dark:border-white/10 dark:shadow-black/30">
             <SelectItem value="recent">Recently updated</SelectItem>
-            <SelectItem value="category">Category</SelectItem>
+            <SelectItem value="priority">Ranked by Codex</SelectItem>
           </SelectContent>
         </Select>
       </div>
