@@ -3,15 +3,19 @@
 import { useEffect, useRef, useState } from "react";
 import { IconCheck, IconCopy, IconExternalLink } from "@tabler/icons-react";
 
-import type { ProjectLink } from "@/lib/projects";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { projectCategoryOrder, type ProjectLink } from "@/lib/projects";
 
 type ProjectBoardProps = {
   projects: readonly ProjectLink[];
 };
 
+type SortMode = "recent" | "category";
+
 export function ProjectBoard({ projects }: ProjectBoardProps) {
   const [copiedProject, setCopiedProject] = useState<string | null>(null);
   const [copyErrorProject, setCopyErrorProject] = useState<string | null>(null);
+  const [sortMode, setSortMode] = useState<SortMode>("recent");
   const copyResetTimeoutRef = useRef<number | null>(null);
   const copyErrorResetTimeoutRef = useRef<number | null>(null);
 
@@ -100,6 +104,25 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
   };
 
   const formatHost = (value: string) => new URL(value).hostname.replace(/^www\./, "");
+  const categoryOrder = new Map(projectCategoryOrder.map((category, index) => [category, index]));
+  const orderedProjects =
+    sortMode === "recent"
+      ? projects
+      : [...projects].sort((a, b) => {
+          const categoryDelta = (categoryOrder.get(a.category) ?? 0) - (categoryOrder.get(b.category) ?? 0);
+
+          if (categoryDelta !== 0) {
+            return categoryDelta;
+          }
+
+          const rankDelta = a.categoryRank - b.categoryRank;
+
+          if (rankDelta !== 0) {
+            return rankDelta;
+          }
+
+          return a.vercelProject.localeCompare(b.vercelProject);
+        });
 
   return (
     <section className="animate-enter-delay flex-1">
@@ -111,13 +134,30 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
             : ""}
       </p>
 
+      <div className="mb-4 flex items-center justify-end gap-2">
+        <span className="text-[11px] font-semibold tracking-[0.18em] text-foreground/40 uppercase">Sort</span>
+        <Select value={sortMode} onValueChange={(value) => setSortMode(value as SortMode)}>
+          <SelectTrigger
+            size="sm"
+            aria-label="Sort projects"
+            className="min-w-40 rounded-full border-black/10 bg-black/[0.03] text-foreground/75 shadow-none hover:bg-black/[0.045] dark:border-white/10 dark:bg-white/[0.03] dark:hover:bg-white/[0.06]"
+          >
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="min-w-40 rounded-2xl border border-black/10 bg-[var(--page-background)] p-1 shadow-lg shadow-black/5 dark:border-white/10 dark:shadow-black/30">
+            <SelectItem value="recent">Recently updated</SelectItem>
+            <SelectItem value="category">Category</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
       <div className="border-y border-black/10 dark:border-white/10">
-        {projects.length === 0 ? (
+        {orderedProjects.length === 0 ? (
           <div className="py-14 text-sm text-foreground/50">No projects yet.</div>
         ) : (
           <>
             <div className="grid gap-3 py-3 md:hidden">
-              {projects.map((project, index) => (
+              {orderedProjects.map((project, index) => (
                 <article
                   key={project.vercelProject}
                   className="rounded-2xl border border-black/10 bg-black/[0.015] p-4 dark:border-white/10 dark:bg-white/[0.03]"
@@ -212,7 +252,7 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
                   </tr>
                 </thead>
                 <tbody>
-                  {projects.map((project, index) => (
+                  {orderedProjects.map((project, index) => (
                     <tr
                       key={project.vercelProject}
                       className="group border-t border-black/10 transition-colors first:border-t-0 hover:bg-black/4 dark:border-white/10 dark:hover:bg-white/6"
