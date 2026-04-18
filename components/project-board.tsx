@@ -12,6 +12,11 @@ type ProjectBoardProps = {
 
 type SortMode = "recent" | "priority";
 
+const sortOptions = [
+  { value: "recent", label: "Recently updated" },
+  { value: "priority", label: "Ranked by Codex" },
+] as const satisfies readonly { value: SortMode; label: string }[];
+
 export function ProjectBoard({ projects }: ProjectBoardProps) {
   const [copiedProject, setCopiedProject] = useState<string | null>(null);
   const [copyErrorProject, setCopyErrorProject] = useState<string | null>(null);
@@ -136,7 +141,7 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
 
       <div className="mb-4 flex items-center justify-end gap-2">
         <span className="text-[11px] font-semibold tracking-[0.18em] text-foreground/40 uppercase">Sort</span>
-        <Select value={sortMode} onValueChange={(value) => setSortMode(value as SortMode)}>
+        <Select items={sortOptions} value={sortMode} onValueChange={(value) => setSortMode(value as SortMode)}>
           <SelectTrigger
             size="sm"
             aria-label="Sort projects"
@@ -145,8 +150,11 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
             <SelectValue />
           </SelectTrigger>
           <SelectContent className="min-w-40 rounded-2xl border border-black/10 bg-[var(--page-background)] p-1 shadow-lg shadow-black/5 dark:border-white/10 dark:shadow-black/30">
-            <SelectItem value="recent">Recently updated</SelectItem>
-            <SelectItem value="priority">Ranked by Codex</SelectItem>
+            {sortOptions.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
