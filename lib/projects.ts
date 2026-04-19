@@ -59,6 +59,14 @@ const projectCatalog: ProjectLink[] = [
     productionUrl: "https://currency-nine-peach.vercel.app",
   },
   {
+    category: "Utility",
+    categoryRank: 3,
+    description: "Lightweight meetup scheduler with shareable boards and live group voting on possible dates.",
+    lastUpdatedAt: "2026-04-19T07:00:29+07:00",
+    vercelProject: "meetdi",
+    productionUrl: "https://meetdi.vercel.app",
+  },
+  {
     category: "Flagship",
     categoryRank: 2,
     description: "AI persona chat app with built-in/custom personas, pinned defaults, and per-persona chat history.",
