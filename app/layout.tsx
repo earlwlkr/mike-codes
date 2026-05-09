@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "mike-codes",
-  description: "Production launchpad for Mike's Vercel projects.",
+  description: "A personal launchpad for Mike's finished apps.",
 };
 
 export default function RootLayout({

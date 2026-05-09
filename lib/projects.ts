@@ -13,7 +13,7 @@ const projectCatalog: ProjectLink[] = [
   {
     category: "Flagship",
     categoryRank: 1,
-    description: "NASA Signal Desk that unifies multiple live NASA API views with a catalog of built and planned mission data surfaces.",
+    description: "NASA command center for exploring space activity, mission updates, and celestial events in one focused dashboard.",
     lastUpdatedAt: "2026-04-25T07:37:40+07:00",
     vercelProject: "comet-tracker",
     productionUrl: "https://comet-tracker.vercel.app",
@@ -21,7 +21,7 @@ const projectCatalog: ProjectLink[] = [
   {
     category: "Momentum",
     categoryRank: 2,
-    description: "Location-based social travel journal with anonymous posting, global feed, and interactive map memories.",
+    description: "Travel journal for sharing anonymous location memories, browsing nearby stories, and revisiting moments on a map.",
     lastUpdatedAt: "2026-04-18T07:59:12+07:00",
     vercelProject: "rove-city",
     productionUrl: "https://rove-city.vercel.app",
@@ -29,7 +29,7 @@ const projectCatalog: ProjectLink[] = [
   {
     category: "Niche",
     categoryRank: 3,
-    description: "Ambient emotional forecast app with calm daily guidance across today, tonight, and tomorrow.",
+    description: "Gentle emotional forecast with calm guidance for today, tonight, and tomorrow.",
     lastUpdatedAt: "2026-03-12T16:19:00+07:00",
     vercelProject: "emotiondi",
     productionUrl: "https://emotiondi.vercel.app",
@@ -37,7 +37,7 @@ const projectCatalog: ProjectLink[] = [
   {
     category: "Niche",
     categoryRank: 2,
-    description: "Tarot-of-the-day ritual app with single-card reveals, reflective guidance, and shareable daily readings.",
+    description: "Daily tarot ritual with a single-card reveal, reflective guidance, and readings you can share.",
     lastUpdatedAt: "2026-04-18T06:43:39+07:00",
     vercelProject: "tarotdi",
     productionUrl: "https://tarotdi.vercel.app",
@@ -45,7 +45,7 @@ const projectCatalog: ProjectLink[] = [
   {
     category: "Momentum",
     categoryRank: 1,
-    description: "AI trip planner that generates structured itineraries with Vercel AI Gateway and saves trips in Convex.",
+    description: "Trip planner that turns travel ideas into organized day-by-day itineraries you can revisit later.",
     lastUpdatedAt: "2026-04-18T07:59:12+07:00",
     vercelProject: "tripdi",
     productionUrl: "https://tripdi-five.vercel.app",
@@ -53,7 +53,7 @@ const projectCatalog: ProjectLink[] = [
   {
     category: "Utility",
     categoryRank: 2,
-    description: "Compact utility for multi-currency amount conversion paired with timezone conversion in one screen.",
+    description: "Quick converter for checking money amounts and time differences in one simple screen.",
     lastUpdatedAt: "2026-04-18T06:43:39+07:00",
     vercelProject: "currency",
     productionUrl: "https://currency-nine-peach.vercel.app",
@@ -61,7 +61,7 @@ const projectCatalog: ProjectLink[] = [
   {
     category: "Utility",
     categoryRank: 3,
-    description: "Lightweight meetup scheduler with shareable boards and live group voting on possible dates.",
+    description: "Meetup planner where groups can share date options and vote on what works best.",
     lastUpdatedAt: "2026-04-25T14:10:26+07:00",
     vercelProject: "meetdi",
     productionUrl: "https://meetdi.vercel.app",
@@ -69,7 +69,7 @@ const projectCatalog: ProjectLink[] = [
   {
     category: "Flagship",
     categoryRank: 2,
-    description: "AI persona chat app with built-in/custom personas, pinned defaults, and per-persona chat history.",
+    description: "Chat space for switching between helpful personas, saving favorites, and keeping conversations organized.",
     lastUpdatedAt: "2026-04-18T07:59:12+07:00",
     vercelProject: "persona",
     productionUrl: "https://verbose-disco-kappa.vercel.app/",
@@ -77,7 +77,7 @@ const projectCatalog: ProjectLink[] = [
   {
     category: "Momentum",
     categoryRank: 3,
-    description: "Personal expense tracker that parses natural-language entries via AI and stores data in IndexedDB.",
+    description: "Personal expense tracker where you can type spending naturally and review clear totals over time.",
     lastUpdatedAt: "2026-04-30T11:19:27+07:00",
     vercelProject: "spendi",
     productionUrl: "https://spendi-woad.vercel.app",
@@ -85,7 +85,7 @@ const projectCatalog: ProjectLink[] = [
   {
     category: "Flagship",
     categoryRank: 3,
-    description: "Multiplayer number-order race game with join codes, lobby countdown, and ranked winner results.",
+    description: "Fast multiplayer number-order race with private rooms, countdowns, and winner results.",
     lastUpdatedAt: "2026-04-18T06:43:39+07:00",
     vercelProject: "numberdi",
     productionUrl: "https://numberdi.vercel.app",
@@ -93,7 +93,7 @@ const projectCatalog: ProjectLink[] = [
   {
     category: "Utility",
     categoryRank: 1,
-    description: "Group expense tracker to split costs, balances, and analytics with shareable read-only links.",
+    description: "Group expense splitter for tracking shared costs, balances, spending patterns, and read-only summaries.",
     lastUpdatedAt: "2026-04-18T07:59:12+07:00",
     vercelProject: "smart-expense",
     productionUrl: "https://smart-expense-one.vercel.app",
@@ -101,7 +101,7 @@ const projectCatalog: ProjectLink[] = [
   {
     category: "Niche",
     categoryRank: 1,
-    description: "Mobile-first color contest app where players submit photos to match target colors and climb leaderboards.",
+    description: "Color-matching photo contest where players chase target colors and climb the leaderboard.",
     lastUpdatedAt: "2026-04-18T06:43:38+07:00",
     vercelProject: "colordi",
     productionUrl: "https://colordi-blond.vercel.app",

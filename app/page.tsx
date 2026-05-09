@@ -5,7 +5,7 @@ import { projects } from "@/lib/projects";
 
 export const metadata: Metadata = {
   title: "mike-codes",
-  description: "Terminal board launcher for Mike's Vercel production apps.",
+  description: "A personal launchpad for Mike's finished apps.",
 };
 
 export default function Page() {

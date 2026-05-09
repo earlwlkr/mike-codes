@@ -20,7 +20,7 @@ const sortOptions = [
 export function ProjectBoard({ projects }: ProjectBoardProps) {
   const [copiedProject, setCopiedProject] = useState<string | null>(null);
   const [copyErrorProject, setCopyErrorProject] = useState<string | null>(null);
-  const [sortMode, setSortMode] = useState<SortMode>("recent");
+  const [sortMode, setSortMode] = useState<SortMode>("priority");
   const copyResetTimeoutRef = useRef<number | null>(null);
   const copyErrorResetTimeoutRef = useRef<number | null>(null);
 
@@ -112,7 +112,15 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
   const categoryOrder = new Map(projectCategoryOrder.map((category, index) => [category, index]));
   const orderedProjects =
     sortMode === "recent"
-      ? projects
+      ? [...projects].sort((a, b) => {
+          const dateDelta = new Date(b.lastUpdatedAt).getTime() - new Date(a.lastUpdatedAt).getTime();
+
+          if (dateDelta !== 0) {
+            return dateDelta;
+          }
+
+          return a.vercelProject.localeCompare(b.vercelProject);
+        })
       : [...projects].sort((a, b) => {
           const categoryDelta = (categoryOrder.get(a.category) ?? 0) - (categoryOrder.get(b.category) ?? 0);
 
