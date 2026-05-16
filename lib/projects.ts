@@ -13,7 +13,7 @@ const projectCatalog: ProjectLink[] = [
   {
     category: "Flagship",
     categoryRank: 1,
-    description: "NASA command center for exploring space activity, mission updates, and celestial events in one focused dashboard.",
+    description: "Mission-control dashboard surfacing live NASA data across 16 dedicated views — from space weather and near-Earth objects to Mars weather and exoplanet discoveries.",
     lastUpdatedAt: "2026-04-25T07:37:40+07:00",
     vercelProject: "comet-tracker",
     productionUrl: "https://comet-tracker.vercel.app",
@@ -69,7 +69,7 @@ const projectCatalog: ProjectLink[] = [
   {
     category: "Flagship",
     categoryRank: 2,
-    description: "Chat space for switching between helpful personas, saving favorites, and keeping conversations organized.",
+    description: "Chat space for switching between famous-figure personas, saving favorites, and keeping conversations organized.",
     lastUpdatedAt: "2026-04-18T07:59:12+07:00",
     vercelProject: "persona",
     productionUrl: "https://verbose-disco-kappa.vercel.app/",
