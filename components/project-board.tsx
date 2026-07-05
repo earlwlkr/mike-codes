@@ -17,6 +17,22 @@ const sortOptions = [
   { value: "priority", label: "Ranked by Codex" },
 ] as const satisfies readonly { value: SortMode; label: string }[];
 
+function ImprovementIdeas({ ideas }: { ideas: ProjectLink["improvementIdeas"] }) {
+  return (
+    <div className="mt-3">
+      <p className="text-[11px] font-semibold tracking-[0.18em] text-foreground/35 uppercase">Improve next</p>
+      <ul className="mt-2 grid gap-1.5 text-xs leading-5 text-foreground/55">
+        {ideas.map((idea) => (
+          <li key={idea} className="flex gap-2">
+            <span className="mt-2 size-1 shrink-0 rounded-full bg-[var(--accent-strong)]/55" aria-hidden />
+            <span>{idea}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function ProjectBoard({ projects }: ProjectBoardProps) {
   const [copiedProject, setCopiedProject] = useState<string | null>(null);
   const [copyErrorProject, setCopyErrorProject] = useState<string | null>(null);
@@ -195,6 +211,7 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
                   </a>
                   <span className="mt-1 block truncate text-xs text-foreground/40">{formatHost(project.productionUrl)}</span>
                   <p className="mt-3 text-sm leading-6 text-foreground/65">{project.description}</p>
+                  <ImprovementIdeas ideas={project.improvementIdeas} />
                   <p className="mt-3 text-xs leading-5 text-foreground/45">
                     Updated {formatLastUpdatedLong(project.lastUpdatedAt)}
                   </p>
@@ -226,7 +243,7 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
 
             <div className="hidden overflow-x-auto md:block">
               <table className="w-full min-w-[44rem] border-collapse text-left">
-                <caption className="sr-only">Vercel projects with descriptions, last updated dates, and actions</caption>
+                <caption className="sr-only">Vercel projects with descriptions, improvement ideas, last updated dates, and actions</caption>
                 <colgroup>
                   <col className="w-12" />
                   <col className="w-56" />
@@ -295,8 +312,9 @@ export function ProjectBoard({ projects }: ProjectBoardProps) {
                           </span>
                         </a>
                       </td>
-                      <td className="min-w-0 align-top py-4 pr-5 text-sm leading-6 text-foreground/65 md:align-middle">
-                        {project.description}
+                      <td className="min-w-0 align-top py-4 pr-5 text-sm leading-6 text-foreground/65">
+                        <p>{project.description}</p>
+                        <ImprovementIdeas ideas={project.improvementIdeas} />
                       </td>
                       <td className="hidden align-top py-4 pr-5 text-sm tabular-nums text-foreground/45 md:table-cell md:align-middle md:text-right">
                         <time dateTime={project.lastUpdatedAt} title={formatLastUpdatedLong(project.lastUpdatedAt)}>
